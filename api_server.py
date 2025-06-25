@@ -137,7 +137,8 @@ def create_book_loader(book_path: str, settings: Dict[str, Any], progress: Trans
         single_translate=settings.get('single_translate', False),
         context_flag=settings.get('use_context', False),
         context_paragraph_limit=settings.get('context_paragraph_limit', 0),
-        temperature=settings.get('temperature', 1.0)
+        temperature=settings.get('temperature', 1.0),
+        parallel_workers=settings.get('parallel_workers', 1)
     )
     
     # Apply additional settings

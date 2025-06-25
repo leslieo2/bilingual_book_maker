@@ -38,6 +38,7 @@ function App() {
     batchSize: 10,
     accumulatedNum: 1,
     blockSize: -1,
+    parallelWorkers: 1,
     interval: 0.01,
     batchFlag: false,
     temperature: 1.0,

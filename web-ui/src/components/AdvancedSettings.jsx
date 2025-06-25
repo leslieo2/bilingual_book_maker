@@ -354,6 +354,23 @@ const AdvancedSettings = ({ settings, onSettingsChange }) => {
 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Parallel Workers (EPUB only)
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    max="8"
+                    value={settings.parallelWorkers || 1}
+                    onChange={(e) => updateSetting('parallelWorkers', parseInt(e.target.value))}
+                    className="block w-32 rounded-md border-gray-300 shadow-sm focus:border-primary-500 focus:ring-primary-500 sm:text-sm"
+                  />
+                  <p className="mt-1 text-sm text-gray-500">
+                    Number of parallel workers for EPUB chapter processing (2-4 recommended)
+                  </p>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
                     Request Interval (seconds)
                   </label>
                   <input
