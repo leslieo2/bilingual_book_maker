@@ -129,7 +129,21 @@ class EPUBBookLoader(BaseBookLoader):
 
     def _make_new_book(self, book):
         new_book = epub.EpubBook()
-        new_book.metadata = book.metadata
+        allowed_ns = set(epub.NAMESPACES.keys())
+        for namespace, metas in book.metadata.items():
+            # 只保留 ebooklib 认识的 namespace
+            if namespace not in allowed_ns:
+                continue
+            # metas 是一个列表，每项是三元组 (name, value, others_dict)
+            for name, value, others in metas:
+                # others 通常是一个 dict，可能是 {} 或者 None
+                if others:
+                    # 把 others 当第四个位置参数传入
+                    new_book.add_metadata(namespace, name, value, others)
+                else:
+                    # 没有额外属性时，只传前三个
+                    new_book.add_metadata(namespace, name, value)
+        # 其余照常拷贝
         new_book.spine = book.spine
         new_book.toc = book.toc
         return new_book
@@ -394,7 +408,7 @@ class EPUBBookLoader(BaseBookLoader):
         if not os.path.exists("log"):
             os.makedirs("log")
 
-        soup = bs(item.content, "html.parser")
+        soup = bs(item.content, "html.parser", from_encoding="utf-8")
         p_list = soup.findAll(trans_taglist)
 
         p_list = self.filter_nest_list(p_list, trans_taglist)
@@ -463,7 +477,7 @@ class EPUBBookLoader(BaseBookLoader):
                 index = self._process_combined_paragraph(p_block, index, p_to_save_len)
 
         if soup:
-            item.content = soup.encode()
+            item.content = soup.encode(encoding="utf-8")
         new_book.add_item(item)
 
         return index

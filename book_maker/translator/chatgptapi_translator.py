@@ -185,7 +185,7 @@ class ChatGPTAPI(Base):
                 self.context_list.pop(0)
                 self.context_translated_list.pop(0)
 
-    def translate(self, text, needprint=True):
+    def translate(self, text, needprint=False):
         start_time = time.time()
         # todo: Determine whether to print according to the cli option
         if needprint:
@@ -323,7 +323,6 @@ class ChatGPTAPI(Base):
             f"... and so on for all {plist_len} paragraphs.\n\n"
             f"You MUST provide EXACTLY {plist_len} translated paragraphs. "
             f"Do not merge, split, or rearrange paragraphs. "
-            f"Translate each paragraph independently but consistently. "
             f"Keep all numbers and special formatting in your translation. "
             f"Each original paragraph must correspond to exactly one translated paragraph."
         )
